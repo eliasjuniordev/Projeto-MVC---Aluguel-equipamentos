@@ -32,6 +32,8 @@ namespace AluguelEquipamentos.Controllers
                 _context.Add(equipamentos);
                 _context.SaveChanges();
 
+                TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
+
                 return RedirectToAction("Index");
             }
 
@@ -57,6 +59,7 @@ namespace AluguelEquipamentos.Controllers
             return View(aluguel);
         }
 
+
         [HttpPost]
         public IActionResult Editar(EquipamentoModel equipamento)
         {
@@ -64,9 +67,12 @@ namespace AluguelEquipamentos.Controllers
             { 
               _context.Equipamentos.Update(equipamento);
               _context.SaveChanges();
+                
+              TempData["MensagemSucesso"] = "Alteração realizada com sucesso!";
               return RedirectToAction("Index");
             }
 
+            TempData["MensagemError"] = "Erro ao Relizar Edição Tente Novamente.";
             return View(equipamento);
         }
 
@@ -100,6 +106,9 @@ namespace AluguelEquipamentos.Controllers
 
             _context.Remove(equipamento);
             _context.SaveChanges();
+
+            TempData["MensagemSucesso"] = "Exclusão realizada com sucesso!";
+
             return RedirectToAction("Index");
 
         }
