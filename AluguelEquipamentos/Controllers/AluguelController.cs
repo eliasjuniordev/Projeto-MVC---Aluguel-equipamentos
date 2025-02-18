@@ -7,10 +7,12 @@ namespace AluguelEquipamentos.Controllers
     public class AluguelController : Controller
     {
         readonly private ApplicationDbContext _context;
+        private readonly RabbitMQService _rabbitMQService;
 
         public AluguelController(ApplicationDbContext dbContext)
         {
             _context = dbContext;
+            _rabbitMQService = new RabbitMQService();
         }
         public IActionResult Index()
         {
@@ -25,14 +27,16 @@ namespace AluguelEquipamentos.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar(EquipamentoModel equipamentos)
+        public IActionResult Cadastrar(EquipamentoModel equipamento)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(equipamentos);
+                _context.Add(equipamento);
                 _context.SaveChanges();
 
                 TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
+
+                _rabbitMQService.SendMessage($"Novo aluguel cadastrado para o cliente {equipamento.Cliente}");
 
                 return RedirectToAction("Index");
             }
@@ -67,8 +71,10 @@ namespace AluguelEquipamentos.Controllers
             { 
               _context.Equipamentos.Update(equipamento);
               _context.SaveChanges();
-                
-              TempData["MensagemSucesso"] = "Alteração realizada com sucesso!";
+
+                _rabbitMQService.SendMessage($"Alteração cadastro cliente {equipamento.Cliente}");
+
+                TempData["MensagemSucesso"] = "Alteração realizada com sucesso!";
               return RedirectToAction("Index");
             }
 
@@ -106,6 +112,8 @@ namespace AluguelEquipamentos.Controllers
 
             _context.Remove(equipamento);
             _context.SaveChanges();
+
+            _rabbitMQService.SendMessage($"Cadastro cliente Excluido {DateTime.Now} {equipamento.Cliente}");
 
             TempData["MensagemSucesso"] = "Exclusão realizada com sucesso!";
 
