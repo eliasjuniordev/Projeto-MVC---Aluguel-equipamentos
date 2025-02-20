@@ -14,9 +14,31 @@ Cadastro Equipamento
 
 Adicionado RabbitMQ message Broker o recebedor será interligado em outros sistemas em breve em outras features.
 
+<div align="center">
+# Instruções para Rodar o Projeto
+
+## 1. Clonar o Projeto
+Clone o repositório para a sua máquina local.
+
+## 2. Rodar Simultaneamente MVC e Aplicativo Console no Visual Studio 2022
+- Abra a solução no Visual Studio 2022.
+- Selecione os projetos **MVC** e **Console**.
+- Clique com o botão direito na solução e escolha **Set Startup Projects** (Definir Projetos de Inicialização).
+- Marque ambos os projetos para rodarem simultaneamente.
+- Execute a solução.
+
+## 3. Configuração do Recebedor RabbitMQ
+- Certifique-se de que o RabbitMQ esteja configurado corretamente para rodar o recebedor de mensagens.
+- Inicie ambos os aplicativos para garantir que a comunicação seja feita corretamente entre eles.
+
+
+
+
 ### Feature Inicial
 
+
 #### 📥 Clone este projeto 
+
 git clone: https://github.com/eliasjuniordev/Projeto-MVC---Aluguel-equipamentos.git
 </br>
 </br>
