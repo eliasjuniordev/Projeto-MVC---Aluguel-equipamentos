@@ -1,5 +1,5 @@
 ﻿using AluguelEquipamentos.Data;
-using AluguelEquipamentos.Models;
+using AluguelEquipamentos.Negocio.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AluguelEquipamentos.Controllers
@@ -11,6 +11,7 @@ namespace AluguelEquipamentos.Controllers
 
         public AluguelController(ApplicationDbContext dbContext)
         {
+
             _context = dbContext;
             _rabbitMQService = new RabbitMQService();
         }
@@ -120,7 +121,5 @@ namespace AluguelEquipamentos.Controllers
             return RedirectToAction("Index");
 
         }
-
-
     }
 }

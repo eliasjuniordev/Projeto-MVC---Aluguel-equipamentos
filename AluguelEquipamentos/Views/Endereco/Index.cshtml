@@ -1,0 +1,60 @@
+﻿@using AluguelEquipamentos.Negocio.Models 
+@model IEnumerable<EnderecoModel>
+@{
+    ViewData["title"] = "Endereços Cadastrados";
+}
+
+<div class="container bg-dark p-1 rounded-5">
+    <div class="mb-5 text-center">
+        <h1 class="text-light">Endereços Cadastrados</h1>
+
+    </div>
+</div>
+ 
+    <div>
+    <table class="table table-light table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Cep</th>
+                <th scope="col">Rua</th>
+                <th scope="col">Bairro</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>          
+                @foreach (var endereco in Model)
+                {
+                    <tr>
+                        <td>@endereco.cep</td>
+                        <td>@endereco.street</td>
+                        <td>@endereco.neighborhood</td>
+                        <td>@endereco.city</td>
+                        <td>@endereco.state</td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+    </div>
+
+    <div>
+
+        <form asp-controller="Endereco" asp-action="BuscarEndereco" method="post">
+            <div class="mb-3">
+                <label for="cepInput" class="form-label">Digite o CEP:</label>
+                <div class="row">
+                    <div class="col-3">
+                        <input type="text" id="cepInput" name="cep" class="form-control" maxlength="8" placeholder="Ex: 01001000" required />
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+
+

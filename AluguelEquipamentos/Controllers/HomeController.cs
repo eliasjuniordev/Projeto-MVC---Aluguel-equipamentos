@@ -1,4 +1,5 @@
-using AluguelEquipamentos.Models;
+
+using AluguelEquipamentos.Negocio.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -1,4 +1,8 @@
 using AluguelEquipamentos.Data;
+using AluguelEquipamentos.Data.Client;
+using AluguelEquipamentos.Data.Mappings;
+using AluguelEquipamentos.Negocio.Interfaces;
+using AluguelEquipamentos.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +16,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 
+builder.Services.AddSingleton<IEnderecoService, EnderecoService>();
+builder.Services.AddSingleton<IApiCep,ApiBrasilClient>();
 builder.Services.AddSingleton<RabbitMQService>();
+
+builder.Services.AddAutoMapper(typeof(EnderecoMapping));
 
 var app = builder.Build();
 

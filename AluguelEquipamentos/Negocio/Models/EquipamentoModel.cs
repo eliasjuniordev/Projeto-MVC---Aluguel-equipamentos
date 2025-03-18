@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AluguelEquipamentos.Models
+namespace AluguelEquipamentos.Negocio.Models
 {
     public class EquipamentoModel
     {

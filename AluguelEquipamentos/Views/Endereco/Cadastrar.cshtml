@@ -1,0 +1,85 @@
+﻿@using AluguelEquipamentos.Negocio.Models
+@model IEnumerable<EnderecoModel>
+
+
+@{
+    ViewData["title"] = "Cadastrar endereço";
+}
+
+<div class="container bg-dark p-1 rounded-5">
+    <div class="mb-5 text-center">
+        <h1 class="text-light">Cadastrar endereço</h1>
+
+    </div>
+</div>
+
+<div class="container">
+  
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success text-dark" role="alert">
+            @TempData["MensagemSucesso"]
+        </div>
+    } @if (TempData["MensagemError"] != null)
+    {
+        <div class="alert alert-danger text-dark" role="alert">
+            @TempData["MensagemError"]
+        </div>
+    }
+
+    <table class="table table-light table-hover mt-3">
+        <thead>
+            <tr>
+                <th scope="col">Cep</th>
+                <th scope="col">Rua</th>
+                <th scope="col">Bairro</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var endereco in Model)
+                {
+                    <tr>
+                        <td>@endereco.cep</td>
+                        <td>@endereco.street</td>
+                        <td>@endereco.neighborhood</td>
+                        <td>@endereco.city</td>
+                        <td>@endereco.state</td>
+                        <td class="d-flex gap-2">
+                            <form method="post" asp-controller="Endereco" asp-action="Salvar">
+                                <input type="hidden" name="cep" value="@endereco.cep" />
+                                <input type="hidden" name="street" value="@endereco.street" />
+                                <input type="hidden" name="neighborhood" value="@endereco.neighborhood" />
+                                <input type="hidden" name="city" value="@endereco.city" />
+                                <input type="hidden" name="state" value="@endereco.state" />
+                                <button type="submit" class="btn btn-outline-dark">
+                                    <i class="bi bi-file-earmark-plus-fill mx-2"></i>Salvar
+                                </button>
+                            </form>
+
+                            <a asp-controller="Endereco" asp-action="Editar" asp-route-id="@endereco.IdEndereco" class="btn btn-warning">
+                                <i class="bi bi-pencil-square mx-2"></i>Editar
+                            </a>
+
+                            <a asp-controller="Endereco" asp-action="Excluir" asp-route-id="@endereco.IdEndereco" class="btn btn-danger">
+                                <i class="bi bi-trash3-fill mx-2"></i>Excluir
+                            </a>
+                        </td>
+
+                    </tr>
+               }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum endereço encontrado</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

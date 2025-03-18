@@ -1,4 +1,4 @@
-namespace AluguelEquipamentos.Models
+namespace AluguelEquipamentos.Negocio.Models
 {
     public class ErrorViewModel
     {
