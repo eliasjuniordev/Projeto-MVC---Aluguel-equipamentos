@@ -20,87 +20,27 @@ public class EnderecoController : Controller
         IEnumerable<EnderecoModel> enderecos = _context.Endereco;
         return View(enderecos);
     }
-
+    [HttpGet]
     public IActionResult Cadastrar()
     {
-
-        var enderecos = TempData["Enderecos"] != null
-            ? JsonSerializer.Deserialize<List<EnderecoModel>>(TempData["Enderecos"].ToString())
-            : new List<EnderecoModel>();
-
-        return View(enderecos);
+        return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> BuscarEndereco(string cep)
+    public IActionResult Cadastrar(EnderecoModel endereco)
     {
-        if (string.IsNullOrWhiteSpace(cep) || cep.Length != 8)
+        if (ModelState.IsValid)
         {
-            TempData["MensagemError"] = "CEP inválido.";
-            return RedirectToAction("Cadastrar");
-        }
+            _context.Add(endereco);
+            _context.SaveChanges();
 
-        var response = await _enderecoService.BuscarEndereco(cep);
+            TempData["MensagemSucesso"] = "Cadastro realizado com sucesso!";
 
-        if (response?.DadosRetorno == null)
-        {
-            TempData["MensagemError"] = "Endereço não encontrado.";
-            return RedirectToAction("Cadastrar");
-        }
-
-        var enderecos = TempData["Enderecos"] != null
-            ? JsonSerializer.Deserialize<List<EnderecoModel>>(TempData["Enderecos"].ToString())
-            : new List<EnderecoModel>();
-
-
-        enderecos.Add(new EnderecoModel
-        {
-            cep = response.DadosRetorno.CEP,
-            street = response.DadosRetorno.Street,
-            neighborhood = response.DadosRetorno.Neighborhood,
-            city = response.DadosRetorno.City,
-            state = response.DadosRetorno.State
-        });
-
-        TempData["Enderecos"] = JsonSerializer.Serialize(enderecos);
-
-        return RedirectToAction("Cadastrar");
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Salvar(EnderecoModel endereco)
-    {
-        if (endereco == null)
-        {
-            TempData["MensagemError"] = "Dados inválidos.";
             return RedirectToAction("Index");
         }
 
-        try
-        {
-          
-            var enderecoExistente = _context.Endereco
-                .FirstOrDefault(e => e.cep == endereco.cep);
-
-            if (enderecoExistente == null)
-            {
-                await _context.Endereco.AddAsync(endereco);
-                await _context.SaveChangesAsync();
-                TempData["MensagemSucesso"] = "Endereço salvo com sucesso!";
-            }
-            else
-            {
-                TempData["MensagemError"] = "O endereço já existe.";
-            }
-        }
-        catch (Exception)
-        {
-            TempData["MensagemError"] = "Erro ao salvar o endereço.";
-        }
-
-        return RedirectToAction("Index");
+        return View();
     }
-
 
     [HttpGet]
     public IActionResult Editar(int? id)
@@ -136,5 +76,76 @@ public class EnderecoController : Controller
         return View(endereco);
     }
 
+
+    [HttpGet]
+    public IActionResult Excluir(int? id)
+    {
+
+        if (id == null || id == 0)
+        {
+            return NotFound();
+        }
+
+        EnderecoModel endereco = _context.Endereco.FirstOrDefault(x => x.IdEndereco == id);
+
+        if (endereco == null)
+        {
+            return NotFound();
+        }
+
+        return View(endereco);
+
+    }
+
+    [HttpPost]
+    public IActionResult Excluir(EnderecoModel endereco)
+    {
+        if (endereco == null)
+        {
+            return NotFound();
+        }
+
+        _context.Remove(endereco);
+        _context.SaveChanges();
+
+        TempData["MensagemSucesso"] = "Exclusão realizada com sucesso!";
+
+        return RedirectToAction("Index");
+
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> BuscarEndereco([FromBody] JsonElement jsonData)
+    {
+        if (!jsonData.TryGetProperty("cep", out JsonElement cepElement))
+        {
+            return BadRequest(new { mensagem = "CEP inválido." });
+        }
+
+        string cep = cepElement.GetString();
+
+        if (string.IsNullOrWhiteSpace(cep) || cep.Length != 8)
+        {
+            return BadRequest(new { mensagem = "CEP inválido." });
+        }
+
+        var response = await _enderecoService.BuscarEndereco(cep);
+
+        if (response?.DadosRetorno == null)
+        {
+            return NotFound(new { mensagem = "Endereço não encontrado." });
+        }
+
+        var endereco = new
+        {
+            cep = response.DadosRetorno.CEP,
+            street = response.DadosRetorno.Street,
+            neighborhood = response.DadosRetorno.Neighborhood,
+            city = response.DadosRetorno.City,
+            state = response.DadosRetorno.State
+        };
+
+        return Json(endereco);
+    }
 
 }

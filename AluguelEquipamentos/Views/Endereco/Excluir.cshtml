@@ -1,16 +1,17 @@
 ﻿@using AluguelEquipamentos.Negocio.Models
 @model EnderecoModel
 @{
-    ViewData["title"] = "Editar Endereco";
+    ViewData["title"] = "Exluir Endereco";
 }
 
 <div class="container bg-dark p-5 rounded-5">
     <div class="mb-5 text-center">
-        <h1 class="text-light">Editar Endereço</h1>
-
+        <h1 class="text-light">Excluir Cadastro Endereco</h1>
+        
     </div>
 
-    <form method="post" asp-controller="Endereco" asp-action="Editar">
+
+    <form method="post" asp-controller="Endereco" asp-action="Excluir">
 
         <input type="hidden" asp-for="IdEndereco" />
 
@@ -41,51 +42,9 @@
         </div>
 
         <div class="d-flex gap-5 mt-5">
-            <button type="submit" class="btn btn-success w-50">Adicionar</button>
+            <button type="submit" class="btn btn-danger w-50">Excluir</button>
             <a class=" btn btn-primary w-50" asp-controller="Endereco" asp-action="Index">Voltar</a>
         </div>
 
     </form>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("CEP").addEventListener("blur", async function () {
-            let cep = this.value.replace(/\D/g, ""); 
-
-            if (cep.length !== 8) {
-                alert("CEP inválido.");
-                return;
-            }
-
-            try {
-                let response = await fetch("/Endereco/BuscarEndereco", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ cep: cep }) 
-                });
-
-                if (!response.ok) {
-                    let errorData = await response.json();
-                    alert(errorData.mensagem);
-                    return;
-                }
-
-                let data = await response.json();
-                document.getElementById("Estado").value = data.state || "";
-                document.getElementById("Cidade").value = data.city || "";
-                document.getElementById("Bairro").value = data.neighborhood || "";
-                document.getElementById("Rua").value = data.street || "";
-
-            } catch (error) {
-                console.error("Erro ao buscar endereço:", error);
-                alert("Erro ao buscar endereço.");
-            }
-        });
-    });
-</script>
-
-
-
-
-
