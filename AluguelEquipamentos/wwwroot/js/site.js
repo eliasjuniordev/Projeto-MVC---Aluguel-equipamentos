@@ -13,7 +13,7 @@
                 "loadingRecords": "Loading...",
                 "processing": "",
                 "search": "Pesquisar:",
-                "zeroRecords": "No matching records found",
+                "zeroRecords": "Nenhum registro correspondente encontrado",
                 "paginate": {
                     "first": "Primeiro",
                     "last": "Último",
