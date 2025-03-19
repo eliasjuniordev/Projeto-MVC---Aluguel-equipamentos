@@ -1,14 +1,18 @@
 <div align="center">
 
-# Desenvolvido como projeto inicial para aprimoramento de habilidades profissionais.
+# Desenvolvido como projeto inicial |Aluguel Equipamentos| - Projeto em construção e melhoria continua novas features sendo desenvolvida.
 
 ![TI](https://github.com/user-attachments/assets/2ea14119-5cb5-4678-b0b8-d2981a0d8779)
 
 Home Inicial
-![Tela Inicial](https://github.com/user-attachments/assets/2d002b78-10e7-4d32-9dbc-9bb47f59c968)
 
-Cadastro Equipamento
-![TelaCadastro](https://github.com/user-attachments/assets/f32b5dc3-8ce5-4017-95de-a2f1714e7084)
+![Tela Inicial](https://github.com/user-attachments/assets/1fa96d0d-cebf-4daf-9ba8-bef183f73dec)
+
+
+Cadastro Equipamento e Endereço
+![TelaCadastro](https://github.com/user-attachments/assets/91a0cf13-3fcc-42ad-8c98-2c31c69aad59)
+
+![CadastroEndereço](https://github.com/user-attachments/assets/0f0e41a9-d53b-4c4a-a3da-511663ff4456)
 
 ## Informações
 
