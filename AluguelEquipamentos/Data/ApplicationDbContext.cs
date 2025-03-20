@@ -11,5 +11,6 @@ namespace AluguelEquipamentos.Data
         }
         public DbSet<EquipamentoModel> Equipamentos { get; set; }
         public DbSet<EnderecoModel> Endereco { get; set; }
+        public DbSet<UsuarioModel> Usuarios { get; set; }
     }
 }

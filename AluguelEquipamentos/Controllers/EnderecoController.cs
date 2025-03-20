@@ -8,21 +8,36 @@ public class EnderecoController : Controller
 {
     private readonly IEnderecoService _enderecoService;
     readonly private ApplicationDbContext _context;
+    readonly private ISessao _sessao;
 
-    public EnderecoController(IEnderecoService enderecoService, ApplicationDbContext dbContext)
+
+    public EnderecoController(IEnderecoService enderecoService, ApplicationDbContext dbContext,ISessao sessao)
     {
         _context = dbContext;
         _enderecoService = enderecoService;
+        _sessao = sessao;
     }
 
     public IActionResult Index()
     {
+        var usuario = _sessao.BuscarSessao();
+
+        if (usuario == null)
+        {
+            return RedirectToAction("Login", "Login");
+        }
         IEnumerable<EnderecoModel> enderecos = _context.Endereco;
         return View(enderecos);
     }
     [HttpGet]
     public IActionResult Cadastrar()
     {
+        var usuario = _sessao.BuscarSessao();
+
+        if (usuario == null)
+        {
+            return RedirectToAction("Login", "Login");
+        }
         return View();
     }
 
@@ -45,6 +60,14 @@ public class EnderecoController : Controller
     [HttpGet]
     public IActionResult Editar(int? id)
     {
+
+        var usuario = _sessao.BuscarSessao();
+
+        if (usuario == null)
+        {
+            return RedirectToAction("Login", "Login");
+        }
+
         if (id == null || id == 0)
         {
             return NotFound();
@@ -80,6 +103,12 @@ public class EnderecoController : Controller
     [HttpGet]
     public IActionResult Excluir(int? id)
     {
+        var usuario = _sessao.BuscarSessao();
+
+        if (usuario == null)
+        {
+            return RedirectToAction("Login", "Login");
+        }
 
         if (id == null || id == 0)
         {
@@ -117,6 +146,12 @@ public class EnderecoController : Controller
     [HttpPost]
     public async Task<IActionResult> BuscarEndereco([FromBody] JsonElement jsonData)
     {
+        var usuario = _sessao.BuscarSessao();
+
+        if (usuario == null)
+        {
+            return RedirectToAction("Login", "Login");
+        }
         if (!jsonData.TryGetProperty("cep", out JsonElement cepElement))
         {
             return BadRequest(new { mensagem = "CEP inválido." });

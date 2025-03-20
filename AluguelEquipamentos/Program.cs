@@ -3,6 +3,9 @@ using AluguelEquipamentos.Data.Client;
 using AluguelEquipamentos.Data.Mappings;
 using AluguelEquipamentos.Negocio.Interfaces;
 using AluguelEquipamentos.Services;
+using AluguelEquipamentos.Services.Login;
+using AluguelEquipamentos.Services.Senha;
+using AluguelEquipamentos.Services.Sessao;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +19,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 
-builder.Services.AddSingleton<IEnderecoService, EnderecoService>();
-builder.Services.AddSingleton<IApiCep,ApiBrasilClient>();
-builder.Services.AddSingleton<RabbitMQService>();
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+builder.Services.AddScoped<Ilogin,LoginService>();
+builder.Services.AddScoped<ISenha, SenhaService>();
+builder.Services.AddScoped<ISessao, SessaoService>();
+builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+builder.Services.AddScoped<IApiCep,ApiBrasilClient>();
+builder.Services.AddScoped<RabbitMQService>();
 
 builder.Services.AddAutoMapper(typeof(EnderecoMapping));
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -40,8 +53,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();

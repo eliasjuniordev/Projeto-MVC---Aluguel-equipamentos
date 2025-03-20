@@ -1,4 +1,5 @@
 ﻿using AluguelEquipamentos.Data;
+using AluguelEquipamentos.Negocio.Interfaces;
 using AluguelEquipamentos.Negocio.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +9,23 @@ namespace AluguelEquipamentos.Controllers
     {
         readonly private ApplicationDbContext _context;
         private readonly RabbitMQService _rabbitMQService;
+        private readonly ISessao _sessao;
 
-        public AluguelController(ApplicationDbContext dbContext)
+        public AluguelController(ApplicationDbContext dbContext,ISessao sessao)
         {
 
             _context = dbContext;
             _rabbitMQService = new RabbitMQService();
+            _sessao = sessao;
         }
         public IActionResult Index()
         {
+            var usuario = _sessao.BuscarSessao();
+            
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
             IEnumerable<EquipamentoModel> equipamentos = _context.Equipamentos;
             return View(equipamentos);
         }
@@ -24,6 +33,13 @@ namespace AluguelEquipamentos.Controllers
         [HttpGet]
         public IActionResult Cadastrar()
         {
+            var usuario = _sessao.BuscarSessao();
+
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             return View();  
         }
 
@@ -48,7 +64,14 @@ namespace AluguelEquipamentos.Controllers
         [HttpGet]
         public IActionResult Editar(int? id)
         {
-            if(id == null || id == 0)
+            var usuario = _sessao.BuscarSessao();
+
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
@@ -86,6 +109,12 @@ namespace AluguelEquipamentos.Controllers
         [HttpGet]
         public IActionResult Excluir(int? id) 
         {
+            var usuario = _sessao.BuscarSessao();
+
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
 
             if (id == null || id == 0)
             {

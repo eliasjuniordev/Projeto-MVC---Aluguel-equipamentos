@@ -9,6 +9,7 @@ namespace AluguelEquipamentos.Negocio.Models
         [Key]
         public int IdEndereco { get; set; }
         [Column("cep")]
+        [Required(ErrorMessage = "Digite o Cep")]
         public string? cep { get; set; }
         [Column("estado")]
         public string? state { get; set; }
