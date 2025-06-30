@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AluguelEquipamentos", "Alug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerRabbitMQ", "..\ConsumerRabbitMQ\ConsumerRabbitMQ.csproj", "{D846B674-E1D7-CA64-65F9-453B844A1CD2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AluguelEquipamentos.Testes", "AluguelEquipamentos.Testes\AluguelEquipamentos.Testes.csproj", "{E9E3DA27-4392-4165-AA58-1416279AE528}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D846B674-E1D7-CA64-65F9-453B844A1CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D846B674-E1D7-CA64-65F9-453B844A1CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D846B674-E1D7-CA64-65F9-453B844A1CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9E3DA27-4392-4165-AA58-1416279AE528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9E3DA27-4392-4165-AA58-1416279AE528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9E3DA27-4392-4165-AA58-1416279AE528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9E3DA27-4392-4165-AA58-1416279AE528}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,11 +11,11 @@ namespace AluguelEquipamentos.Controllers
         private readonly RabbitMQService _rabbitMQService;
         private readonly ISessao _sessao;
 
-        public AluguelController(ApplicationDbContext dbContext,ISessao sessao)
+        public AluguelController(ApplicationDbContext dbContext,ISessao sessao, RabbitMQService rabbitMQService)
         {
 
             _context = dbContext;
-            _rabbitMQService = new RabbitMQService();
+            _rabbitMQService = rabbitMQService;
             _sessao = sessao;
         }
         public IActionResult Index()
