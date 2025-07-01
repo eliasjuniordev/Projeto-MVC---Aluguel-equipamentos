@@ -46,15 +46,28 @@ namespace AluguelEquipamentos.Testes.Unit
         [Test]
         public void Index_DeveRetornarViewComEquipamentos_QuandoUsuarioLogado()
         {
-            // Act
+
             var resultado = _controller.Index();
 
-            // Assert
+       
             var viewResult = resultado.Should().BeOfType<ViewResult>().Subject;
             var modelo = viewResult.Model.Should().BeAssignableTo<IEnumerable<EquipamentoModel>>().Subject;
 
             modelo.Should().HaveCount(2);
             modelo.First().Cliente.Should().Be("João");
+        }
+
+        [Test]
+        public void Index_DeveRetornarViewComMensagemDeErro_QuandoNaoHouverEquipamentos()
+        {
+  
+            _dbContext.Equipamentos.RemoveRange(_dbContext.Equipamentos);
+            _dbContext.SaveChanges();
+       
+            var resultado = _controller.Index();
+  
+            var viewResult = resultado.Should().BeOfType<ViewResult>().Subject;
+            viewResult.ViewData.ModelState.IsValid.Should().BeTrue();
         }
 
         [TearDown]
